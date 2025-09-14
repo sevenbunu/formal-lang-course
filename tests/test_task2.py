@@ -1,4 +1,4 @@
-from project.automaton_transition import regex_to_dfa, graph_to_nfa
+from project.task2 import regex_to_dfa, graph_to_nfa
 from project.graph_utils import get_graph_info
 import pytest
 from networkx import MultiDiGraph
