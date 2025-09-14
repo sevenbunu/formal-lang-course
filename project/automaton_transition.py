@@ -15,6 +15,7 @@ def regex_to_dfa(regex: str) -> DeterministicFiniteAutomaton:
     min_dfa = dfa.minimize()
     return min_dfa
 
+
 def graph_to_nfa(
     graph: MultiDiGraph, start_states: Set[int], final_states: Set[int]
 ) -> NondeterministicFiniteAutomaton:

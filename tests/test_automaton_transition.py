@@ -53,9 +53,7 @@ def test_graph_to_nfa():
     graph = graph_from_csv(g)
     start_states = {1}
     final_states = {2, 3}
-    nfa = graph_to_nfa(
-        graph, start_states, final_states
-    )
+    nfa = graph_to_nfa(graph, start_states, final_states)
 
     assert nfa.start_states == start_states
     assert nfa.final_states == final_states
