@@ -29,7 +29,9 @@ def graph_to_nfa(
         states_to_add = start_states
     for state in states_to_add:
         if state not in nodes:
-            raise ValueError(f"start state {state} not in graph")
+            raise ValueError(
+                f"node {state} not in graph and can't be used as final state"
+            )
         nfa.add_start_state(State(state))
 
     if not final_states:
@@ -38,7 +40,9 @@ def graph_to_nfa(
         states_to_add = final_states
     for state in states_to_add:
         if state not in nodes:
-            raise ValueError(f"final state {state} not in graph")
+            raise ValueError(
+                f"node {state} not in graph and can't be used as final state"
+            )
         nfa.add_final_state(State(state))
 
     return nfa
