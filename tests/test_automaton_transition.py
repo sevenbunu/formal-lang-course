@@ -11,6 +11,13 @@ def test_regex_to_dfa_empty_regex():
     assert dfa.is_empty()
 
 
+def test_regex_to_dfa_simple_regex():
+    regex = "ab"
+    dfa = regex_to_dfa(regex)
+    assert dfa.accepts(["ab"])
+    assert not dfa.accepts(["a", "b"])
+
+
 def test_regex_to_dfa_disjunction():
     regex = "abc|d"
     dfa = regex_to_dfa(regex)
@@ -27,13 +34,6 @@ def test_regex_to_dfa_kleene_star():
     assert not dfa.accepts(["aa"])
 
 
-def test_regex_to_dfa_simple_regex():
-    regex = "ab"
-    dfa = regex_to_dfa(regex)
-    assert dfa.accepts(["ab"])
-    assert not dfa.accepts(["a", "b"])
-
-
 def test_graph_to_nfa_invalid_start_state():
     graph = MultiDiGraph([(1, 2), (2, 3), (1, 3)])
     with pytest.raises(ValueError):
@@ -46,7 +46,7 @@ def test_graph_to_nfa_invalid_final_state():
         graph_to_nfa(graph, {1}, {5})
 
 
-def test_graph_to_nfa():
+def test_graph_to_nfa_correct_case():
     name = "bzip"
     graph_info = get_graph_info(name)
     g = download(name)
