@@ -15,9 +15,10 @@ class AdjacencyMatrixFA:
     def __init__(self, nfa: NondeterministicFiniteAutomaton):
         state_number = 0
         state_to_int = {}
-        states_count = len(nfa.states)
         for state in nfa.states:
             state_to_int[state] = state_number
+            state_number += 1
+        states_count = state_number
 
         boolean_decomposition = {}
         for current_state, transitions in nfa.to_dict().items():
@@ -39,8 +40,22 @@ class AdjacencyMatrixFA:
         self.states_count = states_count
 
     def accepts(self, word: Iterable[Symbol]) -> bool:
+        current_states = self.start_states
+        next_states = set()
         for symbol in word:
-
+            try:
+                boolean_decomposition_for_symbol = self.boolean_decomposition[symbol]
+            except KeyError:
+                return False 
+            for state in current_states:
+                row = boolean_decomposition_for_symbol.getrow(state).toarray().ravel()
+                next_states.update(row.nonzero()[0])
+            current_states = next_states.copy()
+            next_states.clear()
+        for state in current_states:
+            if state in self.final_states:
+                return True
+        return False
 
         
 # graph = regex_to_dfa("ab*")
@@ -48,8 +63,8 @@ class AdjacencyMatrixFA:
 #     print(state)
 # print(len(graph.states))
 # print(graph.to_dict())
-# graph.write_as_dot("bebra.dot")
 
-# matrix = AdjacencyMatrixFA(regex_to_dfa("ab*"))
-# for _, el in matrix.boolean_decomposition.items():
-    # print(el.toarray())
+# matrix = AdjacencyMatrixFA(regex_to_dfa("a b*"))
+# print(matrix.accepts(['ab', 'b', 'b']))
+# for transition, el in matrix.boolean_decomposition.items():
+#     print(transition, el.toarray())
