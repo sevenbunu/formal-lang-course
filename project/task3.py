@@ -46,7 +46,6 @@ class AdjacencyMatrixFA:
     def accepts(self, word: Iterable[Symbol]) -> bool:
         current_states = self.start_states
         next_states = set()
-        print(current_states)
         for symbol in word:
             try:
                 boolean_decomposition_for_symbol = self.boolean_decomposition[symbol]
@@ -57,9 +56,6 @@ class AdjacencyMatrixFA:
                 next_states.update(row.nonzero()[0])
             current_states = next_states.copy()
             next_states.clear()
-            print(symbol)
-            print(boolean_decomposition_for_symbol.toarray())
-            print(current_states)
         for state in current_states:
             if state in self.final_states:
                 return True
