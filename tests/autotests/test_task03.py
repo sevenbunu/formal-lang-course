@@ -13,8 +13,7 @@ from rpq_concrete_cases import CASES_RPQ, CaseRPQ
 # Fix import statements in try block to run tests
 try:
     from project.automaton_transition import regex_to_dfa
-    from project.task3 import intersect_automata, AdjacencyMatrixFA
-    # , tensor_based_rpq
+    from project.adjacency_matrix_fa import intersect_automata, AdjacencyMatrixFA, tensor_based_rpq
 except ImportError:
     pytestmark = pytest.mark.skip("Task 3 is not ready to test!")
 
@@ -44,7 +43,6 @@ class TestAdjacencyMatrixFAIntersection:
             word_parts = next(itertools.islice(words, index, None))
 
         word = map(lambda x: x.value, word_parts)
-        print(list(word))
         assert intersect_fa.accepts(word)
 
 
