@@ -10,14 +10,15 @@ def cfg_to_weak_normal_form(cfg: pyformlang.cfg.CFG) -> pyformlang.cfg.CFG:
     normal_form = cfg.to_normal_form()
 
     if is_cfg_generate_epsilon:
+        normal_form.terminals.add(Epsilon())
+        normal_form.productions.add(Production(normal_form.start_symbol, [Epsilon()], False))
         return CFG(
             variables=normal_form.variables,
-            terminals=normal_form.terminals.add(Epsilon()),
+            terminals=normal_form.terminals,
             start_symbol=normal_form.start_symbol,
-            productions=normal_form.productions.union({Production(normal_form.start_symbol, [Epsilon()])}),
+            productions=normal_form.productions,
         )
-    else:
-        return normal_form
+    return normal_form
 
 
 def hellings_based_cfpq(
