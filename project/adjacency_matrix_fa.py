@@ -90,12 +90,14 @@ class AdjacencyMatrixFA:
         matrix.int_to_state = int_to_state
         return matrix
 
-    def get_adjacency_matrix(self):
+    def get_adjacency_matrix(self) -> csr_matrix:
         adjacency_matrix = csr_matrix(
             ([], ([], [])), shape=(self.states_count, self.states_count), dtype=bool
         )
         for boolean_decomposition_for_symbol in self.boolean_decomposition.values():
             adjacency_matrix += boolean_decomposition_for_symbol
+
+        return adjacency_matrix
 
 
 def intersect_automata(
