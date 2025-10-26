@@ -11,7 +11,9 @@ def cfg_to_weak_normal_form(cfg: pyformlang.cfg.CFG) -> pyformlang.cfg.CFG:
 
     if is_cfg_generate_epsilon:
         normal_form.terminals.add(Epsilon())
-        normal_form.productions.add(Production(normal_form.start_symbol, [Epsilon()], False))
+        normal_form.productions.add(
+            Production(normal_form.start_symbol, [Epsilon()], False)
+        )
         return CFG(
             variables=normal_form.variables,
             terminals=normal_form.terminals,
