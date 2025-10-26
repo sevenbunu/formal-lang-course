@@ -1,4 +1,4 @@
-from typing import List, Iterable, Set, Dict
+from typing import Iterable, Set, Dict
 from networkx.classes import MultiDiGraph
 from pyformlang.finite_automaton import NondeterministicFiniteAutomaton, Symbol, State
 from scipy.sparse import csr_matrix, kron
@@ -20,7 +20,7 @@ class AdjacencyMatrixFA:
         for current_state, transitions in nfa.to_dict().items():
             for transition, destination_state in transitions.items():
                 current = state_to_int[current_state]
-                if nfa.is_deterministic():
+                if not isinstance(destination_state, Set):
                     destination_state = {destination_state}
                 for state in destination_state:
                     destination = state_to_int[state]
@@ -62,12 +62,7 @@ class AdjacencyMatrixFA:
         return False
 
     def is_empty(self) -> csr_matrix:
-        adjacency_matrix = csr_matrix(
-            ([], ([], [])), shape=(self.states_count, self.states_count), dtype=bool
-        )
-        for boolean_decomposition_for_symbol in self.boolean_decomposition.values():
-            adjacency_matrix += boolean_decomposition_for_symbol
-
+        adjacency_matrix = self.get_adjacency_matrix()
         transitive_closure = get_transitive_closure(adjacency_matrix)
 
         for start_state in self.start_states:
@@ -94,6 +89,13 @@ class AdjacencyMatrixFA:
         matrix.state_to_int = state_to_int
         matrix.int_to_state = int_to_state
         return matrix
+
+    def get_adjacency_matrix(self):
+        adjacency_matrix = csr_matrix(
+            ([], ([], [])), shape=(self.states_count, self.states_count), dtype=bool
+        )
+        for boolean_decomposition_for_symbol in self.boolean_decomposition.values():
+            adjacency_matrix += boolean_decomposition_for_symbol
 
 
 def intersect_automata(
@@ -157,17 +159,7 @@ def tensor_based_rpq(
         graph_to_nfa(graph, start_nodes, final_nodes)
     )
     intersection = intersect_automata(automaton_from_regex, automaton_from_graph)
-
-    adjacency_matrix = csr_matrix(
-        ([], ([], [])),
-        shape=(intersection.states_count, intersection.states_count),
-        dtype=bool,
-    )
-    for (
-        _,
-        boolean_decomposition_for_symbol,
-    ) in intersection.boolean_decomposition.items():
-        adjacency_matrix += boolean_decomposition_for_symbol
+    adjacency_matrix = intersection.get_adjacency_matrix()
 
     transitive_closure = get_transitive_closure(adjacency_matrix)
     result = set()
