@@ -127,9 +127,10 @@ def intersect_automata(
     state_to_int, int_to_state = {}, {}
     for int1 in automaton1.state_to_int.values():
         for int2 in automaton2.state_to_int.values():
-            new_state = int1 * automaton2.states_count + int2
-            state_to_int[State(new_state)] = new_state
-            int_to_state[new_state] = State(new_state)
+            new_int = int1 * automaton2.states_count + int2
+            new_state = (automaton1.int_to_state[int1], automaton2.int_to_state[int2])
+            state_to_int[State(new_state)] = new_int
+            int_to_state[new_int] = State(new_state)
 
     return AdjacencyMatrixFA.from_data(
         start_states,
