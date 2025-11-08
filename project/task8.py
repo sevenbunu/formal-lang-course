@@ -16,7 +16,9 @@ from pyformlang.finite_automaton.finite_automaton import State
 from typing import Set
 
 
-def rsm_to_nfa(rsm: pyformlang.rsa.RecursiveAutomaton) -> NondeterministicFiniteAutomaton:
+def rsm_to_nfa(
+    rsm: pyformlang.rsa.RecursiveAutomaton,
+) -> NondeterministicFiniteAutomaton:
     nfa = NondeterministicFiniteAutomaton()
 
     for symbol, box in rsm.boxes.items():
