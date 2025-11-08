@@ -1,4 +1,3 @@
-from pyformlang.rsa import RecursiveAutomaton
 import pyformlang
 from pyformlang.finite_automaton import (
     NondeterministicFiniteAutomaton,
@@ -17,7 +16,7 @@ from pyformlang.finite_automaton.finite_automaton import State
 from typing import Set
 
 
-def rsm_to_nfa(rsm: RecursiveAutomaton) -> NondeterministicFiniteAutomaton:
+def rsm_to_nfa(rsm: pyformlang.rsa.RecursiveAutomaton) -> NondeterministicFiniteAutomaton:
     nfa = NondeterministicFiniteAutomaton()
 
     for symbol, box in rsm.boxes.items():
@@ -40,7 +39,7 @@ def rsm_to_nfa(rsm: RecursiveAutomaton) -> NondeterministicFiniteAutomaton:
 
 
 def tensor_based_cfpq(
-    rsm: RecursiveAutomaton,
+    rsm: pyformlang.rsa.RecursiveAutomaton,
     graph: nx.DiGraph,
     start_nodes: set[int] = None,
     final_nodes: set[int] = None,
